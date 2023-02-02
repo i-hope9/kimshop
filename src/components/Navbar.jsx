@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { GiTacos } from "react-icons/gi";
+import { googleLogin } from "../api/firebase";
 
 export default function Navbar() {
+  
   return (
     <header className="flex flex-row p-4 text-2xl font-sans border-b border-indigo-500">
       <Link to="/" className="basis-2/3">
@@ -12,7 +14,7 @@ export default function Navbar() {
         <Link to="/products">All</Link>
         <Link to="/cart" className="ml-4">Cart</Link>
         <Link to="/products/new" className="ml-4">New for admin</Link>
-        <Link to="/" className="ml-4">login</Link>
+        <button onClick={googleLogin}>login</button>
       </nav>
     </header>
   );
