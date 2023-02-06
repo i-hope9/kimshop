@@ -1,5 +1,95 @@
 import React from "react";
+import { useState } from "react";
+import { upload } from "../api/cloudinary";
+import { writeProduct } from "../api/firebase";
 
 export default function NewProduct() {
-    return <div>new</div>
+  const [product, setProduct] = useState({});
+  const [image, setImage] = useState();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    upload(image)
+        .then(url => {
+            writeProduct(product, url);
+        });
+  };
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === "file") {
+      setImage(files && files[0]);
+      return;
+    }
+    setProduct((product) => ({ ...product, [name]: value }));
+  };
+
+  return (
+    <section>
+      <h1 className="text-2xl mb-5">새로운 제품 등록</h1>
+      <form onSubmit={handleSubmit} className="flex flex-col">
+        <img
+          src={image && URL.createObjectURL(image)}
+          alt={image && image.name}
+          className="w-1/2"
+        ></img>
+        <input
+          type="file"
+          accept="image/*"
+          name="file"
+          onChange={handleChange}
+          className="border border-slate-300 p-2 mb-2"
+          required
+        ></input>
+        <input
+          name="title"
+          type="text"
+          value={product.title ?? ""}
+          onChange={handleChange}
+          placeholder="제품명"
+          className="border border-slate-300 p-2 mb-2"
+          required
+        ></input>
+        <input
+          name="price"
+          type="number"
+          value={product.price ?? ""}
+          onChange={handleChange}
+          placeholder="가격"
+          className="border border-slate-300 p-2 mb-2"
+          required
+        ></input>
+        <input
+          name="category"
+          type="text"
+          value={product.category ?? ""}
+          onChange={handleChange}
+          placeholder="카테고리"
+          className="border border-slate-300 p-2 mb-2"
+          required
+        ></input>
+        <input
+          name="description"
+          type="text"
+          value={product.description ?? ""}
+          onChange={handleChange}
+          placeholder="제품 설명"
+          className="border border-slate-300 p-2 mb-2"
+          required
+        ></input>
+        <input
+          name="options"
+          type="text"
+          value={product.options ?? ""}
+          onChange={handleChange}
+          placeholder="옵션"
+          className="border border-slate-300 p-2 mb-2"
+          required
+        ></input>
+        <button type="submit" className="bg-slate-200 p-2 mb-2">
+          제품 등록하기
+        </button>
+      </form>
+    </section>
+  );
 }
