@@ -6,13 +6,21 @@ import { writeProduct } from "../api/firebase";
 export default function NewProduct() {
   const [product, setProduct] = useState({});
   const [image, setImage] = useState();
+  const [isUploading, setIsUploading] = useState(false);
+  const [success, setSuccess] = useState();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsUploading(true);
     upload(image)
-        .then(url => {
-            writeProduct(product, url);
-        });
+      .then((url) => {
+        writeProduct(product, url) //
+        .then(() => setSuccess("제품 등록 성공!"));
+        setTimeout(() => {
+          setSuccess(null);
+        }, 4000);
+      })
+      .finally(() => setIsUploading(false));
   };
 
   const handleChange = (e) => {
@@ -27,6 +35,7 @@ export default function NewProduct() {
   return (
     <section>
       <h1 className="text-2xl mb-5">새로운 제품 등록</h1>
+      {success && <p>✅ {success}</p>}
       <form onSubmit={handleSubmit} className="flex flex-col">
         <img
           src={image && URL.createObjectURL(image)}
@@ -86,8 +95,12 @@ export default function NewProduct() {
           className="border border-slate-300 p-2 mb-2"
           required
         ></input>
-        <button type="submit" className="bg-slate-200 p-2 mb-2">
-          제품 등록하기
+        <button
+          type="submit"
+          disabled={isUploading}
+          className="bg-slate-200 p-2 mb-2"
+        >
+          {isUploading ? "업로드 중..." : "제품 등록하기"}
         </button>
       </form>
     </section>
