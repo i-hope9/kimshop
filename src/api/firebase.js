@@ -64,6 +64,15 @@ export async function writeProduct(product, url) {
     uuid,
     price: parseInt(product.price),
     url,
-    options: product.options.split(',')
+    options: product.options.split(","),
   }).then();
+}
+
+export async function readProducts() {
+  return get(ref(database, "products/")).then((snapshot) => {
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    }
+    return [];
+  });
 }
