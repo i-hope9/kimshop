@@ -2,6 +2,7 @@ import React from "react";
 import { readProducts } from "../api/firebase";
 import { useQuery } from "react-query";
 import ProductCard from "../components/ProductCard";
+import Banner from "../components/Banner";
 
 export default function Home() {
   const {
@@ -14,14 +15,12 @@ export default function Home() {
     staleTime: 1000 * 60 * 1
   })
 
-  return <div>
-    <section>
-    
-    </section>
+  return <>
+    <Banner></Banner>
     {isLoading && <p>🌮I'm coming!🌯</p>}
     {error && <p></p>}
     <ul>
-      {products && products.map((product) => <ProductCard key={product.id} product={product}></ProductCard>)}
+      {products && products.map((product) => <ProductCard key={product.uuid} product={product}></ProductCard>)}
     </ul>
-  </div>;
+  </>;
 }
