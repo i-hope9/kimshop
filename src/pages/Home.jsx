@@ -19,7 +19,7 @@ export default function Home() {
     <Banner></Banner>
     {isLoading && <p>🌮I'm coming!🌯</p>}
     {error && <p></p>}
-    <ul>
+    <ul className="grid grid-cols-1 md:grid-cols-4">
       {products && products.map((product) => <ProductCard key={product.uuid} product={product}></ProductCard>)}
     </ul>
   </>;
