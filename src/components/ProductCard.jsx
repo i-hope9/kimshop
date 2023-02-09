@@ -9,13 +9,11 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <li>
-      <div className="shadow-md w-96 h-56" onClick={handleClick}>
+    <li className="shadow-md" onClick={handleClick}>
         <img src={url} alt={title}></img>
         <p>{title}</p>
         <p>{`￦${price}`}</p>
         <p>{category}</p>
-      </div>
     </li>
   );
 }
