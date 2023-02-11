@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { writeOrUpdateCart } from "../api/firebase";
+import { writeCart } from "../api/firebase";
 import { useAuthContext } from "../context/AuthContext";
 
 export default function ProductDetail() {
@@ -18,7 +18,7 @@ export default function ProductDetail() {
   };
   const handleClick = () => {
     const cart = { productId, title, price, url, category, option: selected, quantity: 1 };
-    writeOrUpdateCart(cart, uid);
+    writeCart(cart, uid);
   };
   return (
     <section className="">

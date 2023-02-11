@@ -77,11 +77,17 @@ export async function readProducts() {
   });
 }
 
-export async function writeOrUpdateCart(cart, uid) {
-  return set(ref(database, `carts/${uid}/${cart.id}`), {
+export async function writeCart(cart, uid) {
+  return set(ref(database, `carts/${uid}/${cart.productId}`), {
     ...cart,
     price: parseInt(cart.price),
     quantity: parseInt(1),
+  }).then();
+}
+
+export async function updateCart(cart, uid) {
+  return set(ref(database, `carts/${uid}/${cart.productId}`), {
+    ...cart
   }).then();
 }
 
@@ -95,5 +101,5 @@ export async function readCarts(uid) {
 }
 
 export async function deleteCart(uid, productId) {
-  return remove(ref(database), `carts/${uid}/${productId}`);
+  return remove(ref(database, `carts/${uid}/${productId}`));
 }
