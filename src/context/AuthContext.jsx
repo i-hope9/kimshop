@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { googleSignIn, googleSignOut, onUserStateChanged } from "../../api/firebase";
+import { googleSignIn, googleSignOut, onUserStateChanged } from "../api/firebase";
 
 const AuthContext = createContext();
 
@@ -14,7 +14,7 @@ export function AuthContextProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, googleSignIn: googleSignIn, googleSignOut: googleSignOut }}>
+      value={{ user, uid: user && user.uid, googleSignIn: googleSignIn, googleSignOut: googleSignOut }}>
       {children}
     </AuthContext.Provider>
   );

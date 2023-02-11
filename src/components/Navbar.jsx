@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { GiTacos } from "react-icons/gi";
-import { BsFileEarmarkPlus } from "react-icons/bs"
+import { BsFileEarmarkPlus } from "react-icons/bs";
 import User from "./User";
-import { useAuthContext } from "./context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
+import CartStatus from "./CartStatus";
 
 export default function Navbar() {
-  const {user, googleSignIn, googleSignOut} = useAuthContext();
+  const { user, googleSignIn, googleSignOut } = useAuthContext();
 
   return (
     <header className="flex flex-row p-4 text-2xl font-sans border-b border-indigo-500">
@@ -17,19 +18,19 @@ export default function Navbar() {
       </Link>
       <nav className="basis-1/3 flex items-center space-x-4">
         <Link to="/products">All</Link>
-        {user && <Link to="/cart">Cart</Link>}
-        {(user && user.isAdmin) && <Link to="/products/new"><BsFileEarmarkPlus /></Link>}     
-        {!user && (
-          <button onClick={googleSignIn}>
-            Sign In
-          </button>
-        )}
-        {user && <User user={user}></User>}
         {user && (
-          <button onClick={googleSignOut}>
-            Sign Out
-          </button>
+          <Link to="/cart">
+            <CartStatus />
+          </Link>
         )}
+        {user && user.isAdmin && (
+          <Link to="/products/new">
+            <BsFileEarmarkPlus />
+          </Link>
+        )}
+        {!user && <button onClick={googleSignIn}>Sign In</button>}
+        {user && <User user={user}></User>}
+        {user && <button onClick={googleSignOut}>Sign Out</button>}
       </nav>
     </header>
   );

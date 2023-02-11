@@ -9,7 +9,7 @@ export default function ProductCard({ product }) {
   };
 
   return (
-    <li className="shadow-md" onClick={handleClick}>
+    <li className="shadow-md cursor-pointer" onClick={handleClick}>
         <img src={url} alt={title}></img>
         <p>{title}</p>
         <p>{`￦${price}`}</p>
