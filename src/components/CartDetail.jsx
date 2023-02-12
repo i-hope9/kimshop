@@ -4,19 +4,20 @@ import {
   AiOutlineMinusSquare,
   AiFillDelete,
 } from "react-icons/ai";
-import { deleteCart, updateCart } from "../api/firebase";
+import useCarts from "../hooks/useCarts";
 
-export default function CartDetail({ cart, uid }) {
+export default function CartDetail({ cart }) {
   const { productId, url, title, price, option, quantity } = cart;
-  const handleMinus = (op) => {
+  const { updateQuantity, removeCart } = useCarts();
+  const handleMinus = () => {
     if (quantity < 2) return;
-    updateCart({ ...cart, quantity: quantity - 1 }, uid);
+    updateQuantity.mutate({ ...cart, quantity: quantity - 1 }, {});
   };
   const handlePlus = () => {
-    updateCart({ ...cart, quantity: quantity + 1 }, uid);
+    updateQuantity.mutate({ ...cart, quantity: quantity + 1 }, {});
   };
   const handleDelete = () => {
-    deleteCart(uid, productId);
+    removeCart.mutate(productId);
   };
 
   return (
@@ -29,7 +30,7 @@ export default function CartDetail({ cart, uid }) {
       </div>
       <div className="flex items-center text-xl">
         <button onClick={handleMinus}>
-          <AiOutlineMinusSquare name="+" />
+          <AiOutlineMinusSquare />
         </button>
         <p>{quantity}</p>
         <button onClick={handlePlus}>

@@ -1,27 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import { upload } from "../api/cloudinary";
-import { writeProduct } from "../api/firebase";
+import useProducts from "../hooks/useProducts";
 
 export default function NewProduct() {
   const [product, setProduct] = useState({});
   const [image, setImage] = useState();
   const [isUploading, setIsUploading] = useState(false);
   const [success, setSuccess] = useState();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsUploading(true);
-    upload(image)
-      .then((url) => {
-        writeProduct(product, url) //
-        .then(() => setSuccess("제품 등록 성공!"));
-        setTimeout(() => {
-          setSuccess(null);
-        }, 4000);
-      })
-      .finally(() => setIsUploading(false));
-  };
+  const { addProduct } = useProducts();
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -30,6 +17,26 @@ export default function NewProduct() {
       return;
     }
     setProduct((product) => ({ ...product, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsUploading(true);
+    upload(image)
+      .then((url) => {
+        addProduct.mutate(
+          { product, url },
+          {
+            onSuccess: () => {
+              setSuccess("제품 등록 성공!");
+              setTimeout(() => {
+                setSuccess(null);
+              }, 4000);
+            },
+          }
+        );
+      })
+      .finally(() => setIsUploading(false));
   };
 
   return (

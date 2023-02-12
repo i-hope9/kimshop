@@ -78,6 +78,7 @@ export async function readProducts() {
 }
 
 export async function writeCart(cart, uid) {
+  console.log(cart);
   return set(ref(database, `carts/${uid}/${cart.productId}`), {
     ...cart,
     price: parseInt(cart.price),
