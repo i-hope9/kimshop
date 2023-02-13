@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { upload } from "../api/cloudinary";
+import Button from "../components/ui/Button";
 import useProducts from "../hooks/useProducts";
 
 export default function NewProduct() {
@@ -40,21 +41,20 @@ export default function NewProduct() {
   };
 
   return (
-    <section>
-      <h1 className="text-2xl mb-5">새로운 제품 등록</h1>
-      {success && <p>✅ {success}</p>}
-      <form onSubmit={handleSubmit} className="flex flex-col">
-        <img
-          src={image && URL.createObjectURL(image)}
-          alt={image && image.name}
-          className="w-1/2"
-        ></img>
+    <section className="w-full text-center">
+      <h1 className="text-2xl my-4 font-semibold">새로운 메뉴 등록</h1>
+      {success && <p className="my-2">✅ {success}</p>}
+      <img
+        src={image && URL.createObjectURL(image)}
+        alt={image && image.name}
+        className="w-1/2 m-auto mb-2"
+      />
+      <form onSubmit={handleSubmit} className="flex flex-col px-12">
         <input
           type="file"
           accept="image/*"
           name="file"
           onChange={handleChange}
-          className="border border-slate-300 p-2 mb-2"
           required
         ></input>
         <input
@@ -63,7 +63,6 @@ export default function NewProduct() {
           value={product.title ?? ""}
           onChange={handleChange}
           placeholder="제품명"
-          className="border border-slate-300 p-2 mb-2"
           required
         ></input>
         <input
@@ -72,7 +71,6 @@ export default function NewProduct() {
           value={product.price ?? ""}
           onChange={handleChange}
           placeholder="가격"
-          className="border border-slate-300 p-2 mb-2"
           required
         ></input>
         <input
@@ -81,7 +79,6 @@ export default function NewProduct() {
           value={product.category ?? ""}
           onChange={handleChange}
           placeholder="카테고리"
-          className="border border-slate-300 p-2 mb-2"
           required
         ></input>
         <input
@@ -90,7 +87,6 @@ export default function NewProduct() {
           value={product.description ?? ""}
           onChange={handleChange}
           placeholder="제품 설명"
-          className="border border-slate-300 p-2 mb-2"
           required
         ></input>
         <input
@@ -99,16 +95,13 @@ export default function NewProduct() {
           value={product.options ?? ""}
           onChange={handleChange}
           placeholder="옵션"
-          className="border border-slate-300 p-2 mb-2"
           required
         ></input>
-        <button
-          type="submit"
+        <Button
+          onClick={handleSubmit}
           disabled={isUploading}
-          className="bg-slate-200 p-2 mb-2"
-        >
-          {isUploading ? "업로드 중..." : "제품 등록하기"}
-        </button>
+          text={isUploading ? "업로드 중..." : "제품 등록하기"}
+        />
       </form>
     </section>
   );

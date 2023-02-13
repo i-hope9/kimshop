@@ -9,8 +9,8 @@ export default function Cart() {
   if (isLoading) return <p>Loading...</p>;
   const hasProducts = carts && carts.length > 0;
   return (
-    <section>
-      <h1>내 장바구니</h1>
+    <section className="text-center">
+      <h1 className="text-2xl my-4 font-semibold">내 장바구니</h1>
       {!hasProducts && <p>🛒I'am hungry! Give me some Tacos!</p>}
       {hasProducts &&
         carts.map((cart) => (
